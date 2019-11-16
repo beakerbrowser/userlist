@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const AWSXRay = require('aws-xray-sdk');
 
 const db = require('./lib/db')
 
@@ -17,6 +18,7 @@ module.exports = async function () {
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
 
+  app.use(AWSXRay.express.openSegment('Userlist'));
   app.use(logger('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
@@ -41,4 +43,6 @@ module.exports = async function () {
     res.status(err.status || 500);
     res.render('error');
   });
+
+  app.use(AWSXRay.express.closeSegment());
 }
