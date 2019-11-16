@@ -5,9 +5,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  db.knex.raw('SELECT NOW()').asCallback((err, pgRes) => {
+  db.knex('twitter_users').asCallback((err, pgRes) => {
     if (err) return next(err)
-    res.render('index', { title: 'Express', pgRes: pgRes.rows[0].now });
+    console.log(pgRes)
+    res.render('index', { title: 'Express', pgRes: `current users: ${JSON.stringify(pgRes)}` });
   })
 });
 
