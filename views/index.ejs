@@ -6,7 +6,25 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <p>Query result: <%= pgRes %></p>
+    <% if (message) { %>
+      <div class="message <%= message.type %>"><%= message.text %></div>
+    <% } %>
+    <% if (user) { %>
+      <p><strong>You are signed in as <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>">@<%= user.username %></a>.</strong></p>
+      <form action="/update">
+        <p>Set your personal hyperdrive URL:</p>
+        <p><input type="text" name="driveUrl" value=<%= user.driveUrl || '' %>></p>
+        <p><button type="submit">Save</button></p>
+      </p>
+    <% } else { %>
+      <p><a href="/login/twitter" title="Sign in via Twitter">Sign in via Twitter</a> to add your personal drive to this listing.</p>
+    <% } %>
+    <h2>Users</h2>
+    <% for (let user of twitterUsers) { %>
+      <p>
+        <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>">@<%= user.username %></a>:
+        <a href="<%= user.driveUrl %>"><%= user.driveUrl %></a>
+      </p>
+    <% } %>
   </body>
 </html>

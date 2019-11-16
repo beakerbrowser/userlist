@@ -6,3 +6,28 @@ body {
 a {
   color: #00B7FF;
 }
+
+input {
+  width: 40em;
+}
+
+.message {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #555;
+  max-width: 40em;
+}
+
+.message.success {
+  border-color: #55bb55;
+  background: #eeffee;
+  color: #393;
+}
+
+.message.error {
+  border-color: #f55;
+  background: #fee;
+  color: #e33;
+}

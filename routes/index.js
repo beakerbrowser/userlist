@@ -1,15 +1,29 @@
 const express = require('express');
+const config = require('../lib/config')
 const db = require('../lib/db')
 
 var router = express.Router();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  db.knex('twitter_users').asCallback((err, pgRes) => {
-    if (err) return next(err)
-    console.log(pgRes)
-    res.render('index', { title: 'Express', pgRes: `current users: ${JSON.stringify(pgRes)}` });
-  })
+  serveIndex(undefined, req, res, next)
 });
+
+router.post('/update', function (req, res, next) {
+  // TODO 
+  serveIndex({type: 'success', text: 'TODO'}, req, res, next)
+})
+
+function serveIndex (message, req, res, next) {
+  console.log('serveIndex user:', req.user)
+  db.knex('twitter_users').asCallback((err, twitterUsers) => {
+    if (err) return next(err)
+    res.render('index', {
+      title: config.getServiceTitle(),
+      user: req.user,
+      twitterUsers,
+      message
+    });
+  })
+}
 
 module.exports = router;
