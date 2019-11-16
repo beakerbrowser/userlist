@@ -45,4 +45,6 @@ module.exports = async function () {
   });
 
   app.use(AWSXRay.express.closeSegment());
+
+  return app
 }

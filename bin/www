@@ -8,9 +8,13 @@ var createApp = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
 
+var server
+var app
+main()
+
 async function main () {
   try {
-    var app = await createApp()
+    app = await createApp()
   } catch (e) {
     console.error('Fatal error during setup:', e)
     process.exit(1)
@@ -19,8 +23,7 @@ async function main () {
   var port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
 
-  var server = http.createServer(app);
-
+  server = http.createServer(app);
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
