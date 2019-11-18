@@ -6,18 +6,24 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <% if (message) { %>
-      <div class="message <%= message.type %>"><%= message.text %></div>
-    <% } %>
     <% if (user) { %>
       <p><strong>You are signed in as <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>">@<%= user.username %></a>.</strong></p>
-      <form action="/update">
-        <p>Set your personal hyperdrive URL:</p>
-        <p><input type="text" name="driveUrl" value=<%= user.driveUrl || '' %>></p>
-        <p><button type="submit">Save</button></p>
-      </p>
+      <form class="<%= message ? 'has-message' : '' %>" method="post" action="/">
+        <p>Register your public hyperdrive to your twitter username:</p>
+        <p><input type="text" name="driveUrl" value="<%= (form ? form.driveUrl : user.driveUrl) || '' %>" placeholder="dat://1234..ef"></p>
+        <p class="actions">
+          <button type="submit">Save</button>
+          <a class="remove" href="#">✖ Remove my listing</a>
+        </p>
+      </form>
+      <% if (message) { %>
+        <div class="message <%= message.type %>"><%= message.text %></div>
+      <% } %>
     <% } else { %>
-      <p><a href="/login/twitter" title="Sign in via Twitter">Sign in via Twitter</a> to add your personal drive to this listing.</p>
+      <p><a class="cta" href="/login/twitter" title="Sign in via Twitter">Sign in via Twitter</a> to add your profile drive to this listing.</p>
+      <% if (message) { %>
+        <div class="message <%= message.type %>"><%= message.text %></div>
+      <% } %>
     <% } %>
     <h2>Users</h2>
     <% for (let user of twitterUsers) { %>
@@ -27,4 +33,18 @@
       </p>
     <% } %>
   </body>
+  <script type="text/javascript">
+  document.querySelector('.remove').addEventListener('click', function (e) {
+    e.preventDefault()
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', "/", true);
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4) {
+        alert(this.responseText);
+        location.reload()
+      };//end onreadystate
+    }
+    xhr.send();
+  })
+  </script>
 </html>
