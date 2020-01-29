@@ -17,9 +17,9 @@ router.post('/', async function (req, res, next) {
 
     var driveUrl = req.body.driveUrl
     if (!driveUrl || typeof driveUrl !== 'string' || !/[0-9a-f]{64}/i.test(driveUrl)) {
-      throw new Error('Please input a dat URL (no domain name)')
+      throw new Error('Please input a hyper URL')
     }
-    driveUrl = `dat://${/[0-9a-f]{64}/i.exec(driveUrl)[0]}`.toLowerCase()
+    driveUrl = `hyper://${/[0-9a-f]{64}/i.exec(driveUrl)[0]}`.toLowerCase()
     
     await db.upsert('twitter_users', '(username)', {
       username: req.user.username,

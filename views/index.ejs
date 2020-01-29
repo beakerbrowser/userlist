@@ -10,7 +10,7 @@
       <p><strong>You are signed in as <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>">@<%= user.username %></a>.</strong></p>
       <form class="<%= message ? 'has-message' : '' %>" method="post" action="/">
         <p>Register your public hyperdrive to your twitter username:</p>
-        <p><input type="text" name="driveUrl" value="<%= (form ? form.driveUrl : user.driveUrl) || '' %>" placeholder="dat://1234..ef"></p>
+        <p><input type="text" name="driveUrl" value="<%= (form ? form.driveUrl : user.driveUrl) || '' %>" placeholder="hyper://1234..ef"></p>
         <p class="actions">
           <button type="submit">Save</button>
           <a class="remove" href="#">✖ Remove my listing</a>
