@@ -28,10 +28,10 @@
       <% } %>
     <% } %>
     <input class="search" type="text" placeholder="Search the directory">
-    <% for (let user of twitterUsers.concat(twitterUsers).concat(twitterUsers)) { %>
+    <% for (let user of twitterUsers) { %>
       <div class="user">
         <div class="id">
-          <a href="<%= user.driveUrl %>" title="@<%= user.username %>">Paul Frazee</a>
+          <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>
         </div>
         <div class="details">
           Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>
