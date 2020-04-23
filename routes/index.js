@@ -30,7 +30,7 @@ router.post('/', async function (req, res, next) {
       username: req.user.username,
       driveUrl
     })
-    msg = {type: 'success', text: '✔ Your hyperdrive has been updated.'}
+    msg = {type: 'success', text: '✔ Your listing has been updated.'}
   } catch (e) {
     msg = {type: 'error', text: e.toString()}
   }
