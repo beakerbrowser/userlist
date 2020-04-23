@@ -94,6 +94,13 @@ input.search {
   letter-spacing: 1px;
 }
 
+.user .id button {
+  padding: 2px 5px 2px;
+  font-size: 80%;
+  border-radius: 4px;
+  border-color: #bbb;
+}
+
 .user .details {
   color: gray;
 }

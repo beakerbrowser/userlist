@@ -28,16 +28,19 @@
       <% } %>
     <% } %>
     <input class="search" type="text" placeholder="Search the directory">
-    <% for (let user of twitterUsers) { %>
-      <div class="user">
-        <div class="id">
-          <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>
+    <div class="users">
+      <% for (let user of twitterUsers) { %>
+        <div class="user">
+          <div class="id">
+            <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>
+            <button class="add-contact" data-url="<%= user.driveUrl %>">Add to Address Book</button>
+          </div>
+          <div class="details">
+            Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>
+          </div>
         </div>
-        <div class="details">
-          Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>
-        </div>
-      </div>
-    <% } %>
+      <% } %>
+    </div>
   </body>
   <script type="text/javascript">
   document.querySelector('.search').addEventListener('keyup', function (e) {
@@ -48,6 +51,11 @@
       } else {
         user.classList.add('hidden')
       }
+    }
+  })
+  document.querySelector('.users').addEventListener('click', function (e) {
+    if (e.target.classList.contains('add-contact')) {
+      beaker.contacts.requestAddContact(e.target.dataset.url)
     }
   })
   try {
