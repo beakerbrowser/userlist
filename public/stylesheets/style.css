@@ -1,5 +1,6 @@
 body {
-  padding: 50px;
+  padding: 10px 50px;
+  max-width: 600px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -12,7 +13,16 @@ a:hover {
   text-decoration: underline;
 }
 
-a.cta {
+button {
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #ccc;
+  font-size: 90%;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.cta {
   display: inline-block;
   background: #2864dc;
   color: #fff;
@@ -21,55 +31,41 @@ a.cta {
   font-size: 90%;
   text-decoration: none;
   margin-right: 5px;
+  border: 0;
 }
 
-a.cta:hover {
+button:hover,
+.cta:hover {
   box-shadow: 0 2px 3px rgba(0,0,0,.25);
   text-decoration: none;
 }
 
+.actions {
+  padding: 0 8px;
+}
+
 input {
-  width: 99%;
+  width: 100%;
   box-sizing: border-box;
   border-radius: 4px;
   border: 1px solid #bbc;
-  padding: 7px;
+  padding: 7px 9px;
+  letter-spacing: 1px;
 }
 
-form {
-  border: 1px solid #aab;
-  max-width: 40em;
-  border-radius: 8px;
-  padding: 12px 14px;
-  box-sizing: border-box;
-  background: #fafafd;
-}
-
-form > :first-child {
-  margin-top: 0;
-}
-
-form > :last-child {
-  margin-bottom: 0;
-}
-
-form a {
-  color: #aab;
-}
-
-form .actions {
-  display: flex;
-  justify-content: space-between;
+input.search {
+  font-size: 14px;
+  margin-bottom: 12px;
 }
 
 .message {
   border: 1px solid #ccc;
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fafafa;
   color: #555;
-  max-width: 40em;
   box-sizing: border-box;
+  margin-bottom: 12px;
 }
 
 .message.success {
@@ -84,13 +80,20 @@ form .actions {
   color: #e33;
 }
 
-form.has-message {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom: 0;
+.user {
+  margin-bottom: 10px;
 }
 
-form + .message {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.user.hidden {
+  display: none;
+}
+
+.user .id a {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.user .details {
+  color: gray;
 }

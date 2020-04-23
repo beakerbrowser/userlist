@@ -3,18 +3,20 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/fontawesome.min.css' />
   </head>
   <body>
     <h1><%= title %></h1>
     <% if (user) { %>
-      <p><strong>You are signed in as <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>">@<%= user.username %></a>.</strong></p>
-      <form class="<%= message ? 'has-message' : '' %>" method="post" action="/">
-        <p>Register your public hyperdrive to your twitter username:</p>
-        <p><input type="text" name="driveUrl" value="<%= (form ? form.driveUrl : user.driveUrl) || '' %>" placeholder="hyper://1234..ef"></p>
-        <p class="actions">
-          <button type="submit">Save</button>
-          <a class="remove" href="#">✖ Remove my listing</a>
-        </p>
+      <p>
+        <strong>You are signed in as <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>.</strong>
+        <span class="actions">
+          <button class="cta set-profile"><%= userRecord && userRecord.driveUrl ? 'Change' : 'Add' %> Your Profile</button>
+          <button class="remove-profile">Remove</button>
+        </span>
+      </p>
+      <form method="post" action="/">
+        <input type="hidden" name="driveUrl" value="<%= (form ? form.driveUrl : user.driveUrl) || '' %>">
       </form>
       <% if (message) { %>
         <div class="message <%= message.type %>"><%= message.text %></div>
@@ -25,26 +27,48 @@
         <div class="message <%= message.type %>"><%= message.text %></div>
       <% } %>
     <% } %>
-    <h2>Users</h2>
-    <% for (let user of twitterUsers) { %>
-      <p>
-        <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>">@<%= user.username %></a>:
-        <a href="<%= user.driveUrl %>"><%= user.driveUrl %></a>
-      </p>
+    <input class="search" type="text" placeholder="Search the directory">
+    <% for (let user of twitterUsers.concat(twitterUsers).concat(twitterUsers)) { %>
+      <div class="user">
+        <div class="id">
+          <a href="<%= user.driveUrl %>" title="@<%= user.username %>">Paul Frazee</a>
+        </div>
+        <div class="details">
+          Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>
+        </div>
+      </div>
     <% } %>
   </body>
   <script type="text/javascript">
-  document.querySelector('.remove').addEventListener('click', function (e) {
-    e.preventDefault()
-    var xhr = new XMLHttpRequest();
-    xhr.open('DELETE', "/", true);
-    xhr.onreadystatechange = function() {
-      if (this.readyState == 4) {
-        alert(this.responseText);
-        location.reload()
-      };//end onreadystate
+  document.querySelector('.search').addEventListener('keyup', function (e) {
+    var query = (e.currentTarget.value || '').trim().toLowerCase()
+    for (let user of Array.from(document.querySelectorAll('.user'))) {
+      if (user.textContent.toLowerCase().includes(query)) {
+        user.classList.remove('hidden')
+      } else {
+        user.classList.add('hidden')
+      }
     }
-    xhr.send();
   })
+  try {
+    document.querySelector('.set-profile').addEventListener('click', async function (e) {
+      e.preventDefault()
+      var form = document.querySelector('form')
+      form.querySelector('input').value = (await beaker.contacts.requestProfile()).url
+      form.submit()
+    })
+    document.querySelector('.remove-profile').addEventListener('click', function (e) {
+      e.preventDefault()
+      var xhr = new XMLHttpRequest();
+      xhr.open('DELETE', "/", true);
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          alert(this.responseText);
+          location.reload()
+        };//end onreadystate
+      }
+      xhr.send();
+    })
+  } catch (e){}
   </script>
 </html>

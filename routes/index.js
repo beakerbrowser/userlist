@@ -59,6 +59,7 @@ function serveIndex (message, req, res, next) {
       user: req.user,
       form: req.body,
       twitterUsers,
+      userRecord: req.user && req.user.username ? twitterUsers.find(u => u.username === req.user.username) : undefined,
       message
     });
   })
