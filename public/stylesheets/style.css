@@ -1,7 +1,13 @@
 body {
   padding: 10px 50px;
-  max-width: 600px;
+  max-width: 760px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-gap: 10px;
 }
 
 h1 + h3 {
