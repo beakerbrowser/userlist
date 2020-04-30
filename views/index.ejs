@@ -7,6 +7,7 @@
   </head>
   <body>
     <h1><%= title %></h1>
+    <h3><%= twitterUsers.length %> users registered</h3>
     <% if (user) { %>
       <p>
         <strong>You are signed in as <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>.</strong>

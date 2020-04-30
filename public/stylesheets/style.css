@@ -4,6 +4,11 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+h1 + h3 {
+  margin-top: -16px;
+  color: #889;
+}
+
 a {
   color: #2864dc;
   text-decoration: none;
