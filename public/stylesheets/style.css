@@ -100,7 +100,7 @@ input.search {
 }
 
 .user .id a {
-  font-size: 17px;
+  font-size: 1.4em;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -114,4 +114,8 @@ input.search {
 
 .user .details {
   color: gray;
+}
+
+.feed .user {
+  font-size: 80%;
 }
