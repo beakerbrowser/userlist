@@ -30,6 +30,9 @@
     <input class="search" type="text" placeholder="Search the directory">
     <div class="users">
       <% for (let user of twitterUsers) { %>
+        <% if (!user.driveUrl.startsWith('hyper:')) {
+          continue
+        } %>
         <div class="user">
           <div class="id">
             <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>
