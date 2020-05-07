@@ -9,7 +9,11 @@
     <main>
       <div class="feed">
         <h3>Newest users</h3>
-        <% for (let user of twitterUsers.sort((a, b) => b.createdAt - a.createdAt).slice(0, 10)) { %>
+        <%
+          var newTwitterUsers = twitterUsers.slice()
+          newTwitterUsers.sort((a, b) => b.createdAt - aa.createdAt)
+          for (let user of newTwitterUsers.slice(0, 10)) {
+        %>
           <div class="user">
             <div class="id">
               <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>

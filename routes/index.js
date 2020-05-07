@@ -52,7 +52,7 @@ router.delete('/', async function (req, res, next) {
 })
 
 function serveIndex (message, req, res, next) {
-  db.knex('twitter_users').asCallback((err, twitterUsers) => {
+  db.knex('twitter_users').orderBy('username').asCallback((err, twitterUsers) => {
     if (err) return next(err)
     res.render('index', {
       title: config.getServiceTitle(),
