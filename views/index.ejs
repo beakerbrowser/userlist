@@ -49,7 +49,7 @@
           <% } %>
         <% } %>
         <input class="search" type="text" placeholder="Search the directory">
-        <div class="users">
+        <div class="users mainlist">
           <% for (let user of twitterUsers) { %>
             <div class="user">
               <div class="id">
@@ -68,7 +68,7 @@
   <script type="text/javascript">
   document.querySelector('.search').addEventListener('keyup', function (e) {
     var query = (e.currentTarget.value || '').trim().toLowerCase()
-    for (let user of Array.from(document.querySelectorAll('.user'))) {
+    for (let user of Array.from(document.querySelectorAll('.mainlist .user'))) {
       if (user.textContent.toLowerCase().includes(query)) {
         user.classList.remove('hidden')
       } else {
