@@ -11,7 +11,7 @@
         <h3>Newest users</h3>
         <%
           var newTwitterUsers = twitterUsers.slice()
-          newTwitterUsers.sort((a, b) => b.createdAt - aa.createdAt)
+          newTwitterUsers.sort((a, b) => b.createdAt - a.createdAt)
           for (let user of newTwitterUsers.slice(0, 10)) {
         %>
           <div class="user">
