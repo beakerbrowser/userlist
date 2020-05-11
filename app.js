@@ -10,11 +10,13 @@ const Strategy = require('passport-twitter').Strategy;
 
 const config = require('./lib/config')
 const db = require('./lib/db')
+const peerCounts = require('./lib/peer-counts')
 
 const indexRouter = require('./routes/index');
 
 module.exports = async function () {
   await db.setup()
+  peerCounts.start(db)
   var app = express();
 
   var passportConfig = config.getPassportConfig()

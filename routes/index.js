@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('../lib/config')
 const db = require('../lib/db')
+const peerCounts = require('../lib/peer-counts')
 
 var router = express.Router();
 
@@ -54,6 +55,9 @@ router.delete('/', async function (req, res, next) {
 function serveIndex (message, req, res, next) {
   db.knex('twitter_users').orderBy('username').asCallback((err, twitterUsers) => {
     if (err) return next(err)
+    twitterUsers.forEach(user => {
+      user.peerCount = peerCounts.getCount(user.driveUrl)
+    })
     res.render('index', {
       title: config.getServiceTitle(),
       user: req.user,
