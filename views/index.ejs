@@ -54,14 +54,13 @@
             <div class="user">
               <div class="id">
                 <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>
-              </div>
-              <div class="details">
-                <span class="peer-count" data-peer-count="<%= user.peerCount %>">
+                <small class="peer-count" data-peer-count="<%= user.peerCount %>">
                   <span class="fas fa-fw fa-share-alt"></span>
                   <%= user.peerCount %>
                   peer<%= user.peerCount !== 1 ? 's' : '' %>
-                </span>
-                &middot;
+                </small>
+              </div>
+              <div class="details">
                 Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>
               </div>
             </div>
