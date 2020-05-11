@@ -1,13 +1,13 @@
 body {
-  padding: 10px 50px;
-  max-width: 760px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0;
 }
 
 main {
   display: grid;
-  grid-template-columns: 230px 1fr;
+  grid-template-columns: 230px 1fr 1fr;
   grid-gap: 10px;
+  min-height: 100vh;
 }
 
 h1 + h3 {
@@ -116,6 +116,27 @@ input.search {
   color: gray;
 }
 
+.feed {
+  padding: 10px 20px;
+  background: #fafafd;
+}
+
 .feed .user {
   font-size: 80%;
+}
+
+.directory {
+  padding: 0 50px 0 20px;
+}
+
+.beta-notice {
+  background: #fdfdf8;
+  color: #64530c;
+  padding: 10px 30px;
+  border-left: 1px solid #ece4ba;
+  line-height: 1.4;
+}
+
+.beta-notice-inner {
+  max-width: 400px;
 }
