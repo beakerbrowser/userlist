@@ -100,7 +100,7 @@ input.search {
 }
 
 .user .id a {
-  font-size: 1.4em;
+  font-size: 1.3em;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -123,6 +123,19 @@ input.search {
 
 .feed .user {
   font-size: 80%;
+}
+
+.mainlist .user {
+  padding: 10px 14px;
+  border: 1px solid #bbc;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.peer-count {
+  color: #667;
+  position: relative;
+  top: -1px;
 }
 
 .directory {
