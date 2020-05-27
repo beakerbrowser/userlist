@@ -53,11 +53,12 @@ router.delete('/', async function (req, res, next) {
 })
 
 function serveIndex (message, req, res, next) {
-  db.knex('twitter_users').orderBy('username').asCallback((err, twitterUsers) => {
+  db.knex('twitter_users').asCallback((err, twitterUsers) => {
     if (err) return next(err)
     twitterUsers.forEach(user => {
       user.peerCount = peerCounts.getCount(user.driveUrl)
     })
+    twitterUsers.sort((a, b) => a.peerCount - b.peerCount)
     res.render('index', {
       title: config.getServiceTitle(),
       user: req.user,
