@@ -58,7 +58,7 @@ function serveIndex (message, req, res, next) {
     twitterUsers.forEach(user => {
       user.peerCount = peerCounts.getCount(user.driveUrl)
     })
-    twitterUsers.sort((a, b) => a.peerCount - b.peerCount)
+    twitterUsers.sort((a, b) => b.peerCount - a.peerCount)
     res.render('index', {
       title: config.getServiceTitle(),
       user: req.user,
