@@ -63,6 +63,9 @@
               <div class="details">
                 Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span> <%= user.username %></a>
               </div>
+              <div>
+                <button class="add-contact" data-url="<%= user.driveUrl %>">Add to Address Book</button>
+              </div>
             </div>
           <% } %>
         </div>
@@ -108,5 +111,10 @@
       xhr.send();
     })
   } catch (e){}
+  document.querySelector('.users').addEventListener('click', function (e) {
+    if (e.target.classList.contains('add-contact')) {
+      beaker.contacts.requestAddContact(e.target.dataset.url)
+    }
+  })
   </script>
 </html>
