@@ -64,6 +64,7 @@ router.get('/list.json', function(req, res, next) {
   db.knex('users').asCallback((err, users) => {
     if (err) return next(err)
     users.sort((a, b) => b.peerCount - a.peerCount)
+    res.set('Access-Control-Allow-Origin', '*')
     res.json({
       title: config.getServiceTitle(),
       users: users.map(user => ({
