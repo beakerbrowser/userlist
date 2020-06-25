@@ -10,59 +10,57 @@
       <div class="feed">
         <h3>Newest users</h3>
         <%
-          var newTwitterUsers = twitterUsers.slice()
-          newTwitterUsers.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-          for (let user of newTwitterUsers.slice(0, 10)) {
+          var newUsers = users.slice()
+          newUsers.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+          for (let user of newUsers.slice(0, 10)) {
         %>
           <div class="user">
             <div class="id">
-              <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>
+              <a href="<%= user.driveUrl %>" title="@<%= user.title %>"><%= user.title %></a>
             </div>
-            <div class="details">
-              Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span> <%= user.username %></a>
-            </div>
+            <div class="details"><%= user.description %></div>
           </div>
-
         <% } %>
       </div>
       <div class="directory">
-        <h1><%= title %></h1>
-        <h3><%= twitterUsers.length %> users registered</h3>
-        <% if (user) { %>
-          <p>
-            <strong>You are signed in as <a href="https://twitter.com/<%= user.username %>" title="@<%= user.username %>"><span class="fab fa-twitter"></span><%= user.username %></a>.</strong>
-            <span class="actions">
-              <button class="cta set-profile"><%= userRecord && userRecord.driveUrl ? 'Change' : 'Add' %> Your Listing</button>
-              <button class="remove-profile">Remove</button>
-            </span>
-          </p>
-          <form method="post" action="/">
-            <input type="hidden" name="driveUrl" value="<%= (form ? form.driveUrl : user.driveUrl) || '' %>">
-          </form>
-          <% if (message) { %>
-            <div class="message <%= message.type %>"><%= message.text %></div>
-          <% } %>
+        <% if (myRecord) { %>
+          <span class="actions">
+            <button class="cta set-profile"><span class="fas fa-fw fa-pencil-alt"></span> Update Your Listing</button>
+            <button class="remove-profile">Remove</button>
+          </span>
         <% } else { %>
-          <p><a class="cta" href="/login/twitter" title="Sign in via Twitter"><span class="fas fa-fw fa-sign-in-alt"></span> Sign in via Twitter</a> to add your profile drive to this listing. (We'll add more ways to sign in soon.)</p>
-          <% if (message) { %>
-            <div class="message <%= message.type %>"><%= message.text %></div>
-          <% } %>
+          <span class="actions">
+            <button class="cta set-profile"><span class="fas fa-fw fa-plus"></span> Add Your Profile</button>
+          </span>
+        <% } %>
+        <h1><%= title %></h1>
+        <h3><%= users.length %> users registered</h3>
+        <form method="post" action="/">
+          <input type="hidden" name="driveUrl" value="<%= (form ? form.driveUrl : user.driveUrl) || '' %>">
+          <input type="hidden" name="title" value="<%= (form ? form.title : user.title) || '' %>">
+          <input type="hidden" name="description" value="<%= (form ? form.description : user.description) || '' %>">
+        </form>
+        <% if (myRecord) { %>
+          <p>You're listed as <a href="<%= myRecord.driveUrl %>" title="@<%= myRecord.title %>"><%= myRecord.title %></a>.</p>
+        <% } %>
+        <% if (message) { %>
+          <div class="message <%= message.type %>"><%= message.text %></div>
         <% } %>
         <input class="search" type="text" placeholder="Search the directory">
         <div class="users mainlist">
-          <% for (let user of twitterUsers) { %>
+          <% for (let user of users) { %>
             <div class="user">
               <div class="id">
-                <a href="<%= user.driveUrl %>" title="@<%= user.username %>"><%= user.username %></a>
+                <a href="<%= user.driveUrl %>" title="@<%= user.title %>"><%= user.title %></a>
                 <small class="peer-count" data-peer-count="<%= user.peerCount %>">
                   <span class="fas fa-fw fa-share-alt"></span>
                   <%= user.peerCount %>
                   hosting
                 </small>
               </div>
-              <div class="details">
-                Verified <a href="https://twitter.com/<%= user.username %>"><span class="fab fa-twitter"></span> <%= user.username %></a>
-              </div>
+              <% if (user.description) { %>
+                <div class="details"><%= user.description %></div>
+              <% } %>
               <div>
                 <button class="add-contact" data-url="<%= user.driveUrl %>">Add to Address Book</button>
               </div>
@@ -72,10 +70,8 @@
       </div>
       <div class="beta-notice">
         <div class="beta-notice-inner">
-          <h2>Beaker Beta</h2>
-          <p>Welcome to the public beta! We're testing and improving the peer-to-peer network with your feedback.</p>
-          <p><strong>You need to keep Beaker running to make sure your site is available.</strong> We do not host these sites for you.</p>
-          <p>If you have trouble connecting, please <a href="https://github.com/beakerbrowser/beaker">let us know</a>.</p>
+          <h3>Help</h3>
+          <p>If you need help changing or removing your listing, email us at support@beakerbrowser.com</p>
         </div>
       </div>
     </main>
@@ -92,12 +88,15 @@
     }
   })
   try {
-    document.querySelector('.set-profile').addEventListener('click', async function (e) {
+    Array.from(document.querySelectorAll('.set-profile'), el => el.addEventListener('click', async function (e) {
       e.preventDefault()
       var form = document.querySelector('form')
-      form.querySelector('input').value = (await beaker.contacts.requestProfile()).url
+      var profile = await beaker.contacts.requestProfile()
+      form.querySelector('input[name="driveUrl"]').value = profile.url
+      form.querySelector('input[name="title"]').value = profile.title
+      form.querySelector('input[name="description"]').value = profile.description
       form.submit()
-    })
+    }))
     document.querySelector('.remove-profile').addEventListener('click', function (e) {
       e.preventDefault()
       var xhr = new XMLHttpRequest();
@@ -116,5 +115,46 @@
       beaker.contacts.requestAddContact(e.target.dataset.url)
     }
   })
+
+  if (typeof window.beaker === 'object') {
+    beaker.terminal.registerCommand({
+      name: 'admin-list',
+      help: 'admin-list {password} {driveUrl}',
+      async handle (opts = {}, password, driveUrl) {
+        return JSON.stringify(await (await fetch('/admin-list', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(Object.assign(opts, {password, driveUrl}))
+        })).json(), null, 2)
+      }
+    })
+    beaker.terminal.registerCommand({
+      name: 'admin-update',
+      help: 'admin-update {password} {idtoken} [-t title] [-d description] [-u drive url]',
+      options: [
+        {name: 'title', abbr: 't', help: 'Title to set'},
+        {name: 'description', abbr: 'd', help: 'Description to set'},
+        {name: 'driveUrl', abbr: 'u', help: 'URL to set'}
+      ],
+      async handle (opts = {}, password, idtoken) {
+        return (await fetch('/admin-update', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(Object.assign(opts, {password, idtoken}))
+        })).text()
+      }
+    })
+    beaker.terminal.registerCommand({
+      name: 'admin-delete',
+      help: 'admin-delete {password} {idtoken}',
+      async handle (opts = {}, password, idtoken) {
+        return (await fetch('/admin-delete', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({password, idtoken})
+        })).text()
+      }
+    })
+  }
   </script>
 </html>
