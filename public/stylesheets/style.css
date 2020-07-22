@@ -133,6 +133,12 @@ input.search {
   font-size: 80%;
 }
 
+.mainlist {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 5px;
+}
+
 .mainlist .user {
   padding: 10px 14px;
   border: 1px solid #bbc;
