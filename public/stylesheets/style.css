@@ -52,7 +52,7 @@ button:hover,
 .actions {
   position: absolute;
   top: 20px;
-  right: 45px;
+  right: 15px;
 }
 
 input {
@@ -135,8 +135,14 @@ input.search {
 
 .mainlist {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 5px;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 8px;
+}
+
+@media screen and (min-width: 1280px) {
+  .mainlist {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .mainlist .user {
@@ -154,7 +160,7 @@ input.search {
 
 .directory {
   position: relative;
-  padding: 0 50px 0 20px;
+  padding: 0 20px;
 }
 
 .beta-notice {
